@@ -6,6 +6,35 @@ This repository supports these baselines: MedSAM2 and Efficient MedSAM2 Small/Ti
 
 ## Building Docker
 
+### For MedSAM2
+
+- Download MedSAM2 RECIST checkpoint
+```bash
+sh download_MedSAM2.sh
+```
+- Navigate to `predict.sh` and please make sure the command is as follows
+```bash
+python3 medsam2_infer_CT_lesion_npz_recist.py \
+    --imgs_path /workspace/inputs \
+    --pred_save_dir /workspace/outputs
+```
+- Build docker image
+```bash
+docker build --no-cache -t medsam2:latest -f Dockerfile .
+```
+- Run on example case
+```bash
+docker container run -m 8G --rm \
+  -v $PWD/data/validation_public_npz:/workspace/inputs/ \
+  -v $PWD/data/out:/workspace/outputs/ \
+  medsam2:latest \
+  /bin/bash -c "sh predict.sh" 
+```
+- Save docker image
+```
+docker save medsam2:latest | gzip > medsam2.tar.gz 
+```
+
 ### For Efficient MedSAM2 Small
 
 - Download Efficient MedSAM2 small checkpoint
@@ -67,9 +96,7 @@ docker save efficientmedsam2tiny:latest | gzip > efficientmedsam2tiny.tar.gz
 ```
 
 ## Download baseline dockers directly
-The baseline dockers can be downloaded from the following link. 
-[Efficient MedSAM2 Small]()
-[Efficient MedSAM2 Tiny]()
+- MedSAM2 RECIST, Efficient MedSAM2 Small/Tiny RECIST dockers can be downloaded [here](https://huggingface.co/datasets/FLARE-MedFM/FLARE-Task1-PancancerRECIST-to-3D-Dockers)
 
 ## Acknowledgements
 

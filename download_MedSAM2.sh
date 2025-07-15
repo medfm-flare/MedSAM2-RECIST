@@ -15,9 +15,7 @@ fi
 # Define the base URL for MedSAM2 models on Hugging Face
 HF_BASE_URL="https://huggingface.co/wanglab/MedSAM2/resolve/main"
 # Define the model checkpoint files (as separate variables instead of an array)
-MODEL1="MedSAM2_latest.pt"
-MODEL1="eff_medsam2_small_FLARE25_RECIST_baseline.pt"
-MODEL2="eff_medsam2_tiny_FLARE25_RECIST_baseline.pt"
+MODEL1=" medsam2_FLARE25_RECIST_baseline.pt"
 
 # Download each checkpoint
 for model in $MODEL1; do
