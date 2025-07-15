@@ -29,7 +29,7 @@ from PIL import Image
 import SimpleITK as sitk
 import torch
 import torch.multiprocessing as mp
-from huggingface_hub import hf_hub_download
+#from huggingface_hub import hf_hub_download
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning)
 
@@ -112,7 +112,8 @@ checkpoint = args.checkpoint
 model_cfg = args.cfg
 # make into absolute path
 script_directory = os.path.dirname(os.path.abspath(__file__))
-model_cfg = '/' + join(script_directory, model_cfg)
+model_cfg = '/' + join(script_directory, model_cfg, 'efficienttam_s_512x512.yaml')
+ckpt_path = join(script_directory, 'checkpoints', 'efficienttam_s_512x512.pt')
 imgs_path = args.imgs_path
 gts_path = args.gts_path
 shift = args.shift
@@ -123,23 +124,6 @@ save_overlay = args.save_overlay
 png_save_dir = join(args.pred_save_dir, 'png_overlay')
 num_workers = args.num_workers
 propagate_with_box = args.propagate_with_box
-
-if checkpoint == 'small':
-    ckpt_path = hf_hub_download(
-        repo_id="wanglab/MedSAM2",
-        filename="eff_medsam2_small_FLARE25_RECIST_baseline.pt",
-        cache_dir="./checkpoints"
-    )
-    model_cfg = model_cfg + "/efficienttam_s_512x512.yaml"
-    print(f'using small model: {ckpt_path}')
-else:
-    ckpt_path = hf_hub_download(
-        repo_id="wanglab/MedSAM2",
-        filename="eff_medsam2_tiny_FLARE25_RECIST_baseline.pt",
-        cache_dir="./checkpoints"
-    )
-    model_cfg = model_cfg + "/efficienttam_ti_512x512.yaml"
-    print(f'using tiny model: {ckpt_path}')
 
 predictor = build_efficienttam_video_predictor_npz(model_cfg, ckpt_path, device='cpu')
 
