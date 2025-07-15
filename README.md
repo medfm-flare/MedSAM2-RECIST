@@ -96,7 +96,11 @@ docker save efficientmedsam2tiny:latest | gzip > efficientmedsam2tiny.tar.gz
 ```
 
 ## Download baseline dockers directly
-- MedSAM2 RECIST, Efficient MedSAM2 Small/Tiny RECIST dockers can be downloaded [here](https://huggingface.co/datasets/FLARE-MedFM/FLARE-Task1-PancancerRECIST-to-3D-Dockers)
+- MedSAM2 RECIST, Efficient MedSAM2 Small/Tiny RECIST dockers can be downloaded [here](https://huggingface.co/datasets/FLARE-MedFM/FLARE-Task1-PancancerRECIST-to-3D-Dockers).
+To download all dockers, please run
+```bash
+sh download_dockers.py
+```
 
 ## Acknowledgements
 
