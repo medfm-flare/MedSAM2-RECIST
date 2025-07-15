@@ -112,8 +112,12 @@ checkpoint = args.checkpoint
 model_cfg = args.cfg
 # make into absolute path
 script_directory = os.path.dirname(os.path.abspath(__file__))
-model_cfg = '/' + join(script_directory, model_cfg, 'efficienttam_s_512x512.yaml')
-ckpt_path = join(script_directory, 'checkpoints', 'efficienttam_s_512x512.pt')
+if checkpoint == 'small':
+    model_cfg = '/' + join(script_directory, model_cfg, 'efficienttam_s_512x512.yaml')
+    ckpt_path = join(script_directory, 'checkpoints', 'eff_medsam2_small_FLARE25_RECIST_baseline.pt')
+else:
+    model_cfg = '/' + join(script_directory, model_cfg, 'efficienttam_ti_512x512.yaml')
+    ckpt_path = join(script_directory, 'checkpoints', 'eff_medsam2_tiny_FLARE25_RECIST_baseline.pt')
 imgs_path = args.imgs_path
 gts_path = args.gts_path
 shift = args.shift

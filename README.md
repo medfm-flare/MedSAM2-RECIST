@@ -1,7 +1,8 @@
 # MedSAM2-RECIST
 
 Docker-based MedSAM2 inference pipeline for MICCAI FLARE25 Task1-PancancerRECIST-to-3D. 
-This repository supports two baselines: MedSAM2 and Efficient MedSAM2.
+This repository supports these baselines: MedSAM2 and Efficient MedSAM2 Small/Tiny.
+
 
 ## Building Docker
 
@@ -9,32 +10,66 @@ This repository supports two baselines: MedSAM2 and Efficient MedSAM2.
 
 - Download Efficient MedSAM2 small checkpoint
 ```bash
-sh download_EfficientMedSAM2.sh
+sh download_EfficientMedSAM2_Small.sh
 ```
 - Navigate to `predict.sh` and please make sure the command is as follows
 ```bash
 python3 eff_medsam2_infer_CT_lesion_npz_recist_local.py \
+    --checkpoint small \
     --imgs_path /workspace/inputs \
     --pred_save_dir /workspace/outputs
 ```
 - Build docker image
 ```bash
-docker build --no-cache -t efficient-medsam2:latest -f Dockerfile .
+docker build --no-cache -t efficientmedsam2small:latest -f Dockerfile .
 ```
 - Run on example case
 ```bash
 docker container run -m 8G --rm \
   -v $PWD/data/validation_public_npz:/workspace/inputs/ \
   -v $PWD/data/out:/workspace/outputs/ \
-  efficient-medsam2:latest \
+  efficientmedsam2small:latest \
   /bin/bash -c "sh predict.sh" 
 ```
 - Save docker image
 ```
-docker save efficient-medsam2:latest | gzip > efficient-medsam2.tar.gz
+docker save efficientmedsam2small:latest | gzip > efficientmedsam2small.tar.gz
 ```
 
+### For Efficient MedSAM2 Tiny
 
+- Download Efficient MedSAM2 Tiny checkpoint
+```bash
+sh download_EfficientMedSAM2_Tiny.sh
+```
+- Navigate to `predict.sh` and please make sure the command is as follows
+```bash
+python3 eff_medsam2_infer_CT_lesion_npz_recist_local.py \
+    --checkpoint tiny \
+    --imgs_path /workspace/inputs \
+    --pred_save_dir /workspace/outputs
+```
+- Build docker image
+```bash
+docker build --no-cache -t efficientmedsam2tiny:latest -f Dockerfile .
+```
+- Run on example case
+```bash
+docker container run -m 8G --rm \
+  -v $PWD/data/validation_public_npz:/workspace/inputs/ \
+  -v $PWD/data/out:/workspace/outputs/ \
+  efficientmedsam2tiny:latest \
+  /bin/bash -c "sh predict.sh" 
+```
+- Save docker image
+```
+docker save efficientmedsam2tiny:latest | gzip > efficientmedsam2tiny.tar.gz
+```
+
+## Download baseline dockers directly
+The baseline dockers can be downloaded from the following link. 
+[Efficient MedSAM2 Small]()
+[Efficient MedSAM2 Tiny]()
 
 ## Acknowledgements
 
